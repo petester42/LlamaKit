@@ -6,43 +6,51 @@
 //  Copyright (c) 2014 Rob Napier. All rights reserved.
 //
 
+//
+// Not yet implemented
+//
+
 import Foundation
 
-class Promise<A> {
-  let future: Future<Result<A>>
+public class Promise<T> {
 
-  init(future: Future<Result<A>>) {
-    self.future = future
+  var future: Future<Result<T>> = Future()
+
+  public func complete(result: Result<T>) {
+    future.completeWith(result)
   }
 
-  func map<B>(f: A -> B) -> Promise<B> {
-    return Promise<B>(future: self.future.map { $0.map(f) })
+  public func completeWith(future: Future<Result<T>>) {
+    future.onComplete(self.future.completeWith{$0})
   }
 
-  func flatMap<B>(f: A -> Promise<B>) -> Promise<B> {
-    return Promise<B>(future: Future(exec: gcdExecutionContext) {
+  func map<U>(f: T -> U) -> Promise<U> {
+    return Promise<U>().completeWith(self.future?.map { $0.map(f) })
+  }
+
+  func flatMap<U>(f: T -> Promise<U>) -> Promise<U> {
+    return Promise<U>(future: async {
       return self.result().map(f).flatMap { $0.result() }
-    })
+      })
   }
 
-  func result() -> Result<A> {
+  func result() -> Result<T> {
     return future.result()
   }
 
-  class func success(value: A) -> Promise<A> {
-    return Promise(future: Future(exec: gcdExecutionContext) { Result.Success(Box(value)) })
+  class func success(value: A) -> Promise<T> {
+    return Promise(future: async { Result.Success(Box(value)) })
   }
 
-  class func failure(error: NSError) -> Promise<A> {
-    return Promise(future: Future(exec: gcdExecutionContext) { Result.Failure(error) })
+  class func failure(error: NSError) -> Promise<T> {
+    return Promise(future: async { Result.Failure(error) })
   }
 }
 
-func sequence<A>(promises: [Promise<A>]) -> Promise<[A]> {
-  let future = Future(exec: gcdExecutionContext) {
+func sequence<A>(promises: [Promise<T>]) -> Promise<[T]> {
+  return Promise(future: async {
     sequence(promises.map{ $0.result() })
-  }
-  return Promise(future: future)
+    })
 }
 
 func >>==<A,B>(a: Promise<A>, f: A -> Promise<B>) -> Promise<B> {

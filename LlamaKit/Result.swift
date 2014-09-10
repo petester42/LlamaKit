@@ -8,16 +8,16 @@
 
 import Foundation
 
-func success<A>(value: A) -> Result<A> {
+public func success<T>(value: T) -> Result<T> {
   return .Success(Box(value))
 }
 
-func failure<A>(error: NSError) -> Result<A> {
+public func failure<T>(error: NSError) -> Result<T> {
   return .Failure(error)
 }
 
-enum Result<A> {
-  case Success(Box<A>)
+public enum Result<T> {
+  case Success(Box<T>)
   case Failure(NSError)
 
   func isSuccess() -> Bool {
@@ -28,7 +28,7 @@ enum Result<A> {
   }
 
 
-  func map<B>(f: A -> B) -> Result<B> {
+  func map<U>(f: T -> U) -> Result<U> {
     switch self {
     case Success(let box):
       return success(f(box.unbox))
@@ -37,7 +37,7 @@ enum Result<A> {
     }
   }
 
-  func flatMap<B>(f:A -> Result<B>) -> Result<B> {
+  func flatMap<U>(f:T -> Result<U>) -> Result<U> {
     switch self {
     case Success(let value): return f(value.unbox)
     case Failure(let error): return .Failure(error)
@@ -46,7 +46,7 @@ enum Result<A> {
 }
 
 extension Result: Printable {
-  var description: String {
+  public var description: String {
     switch self {
     case .Success(let box):
       return "Success: \(box.unbox)"
@@ -58,7 +58,7 @@ extension Result: Printable {
 
 // Due to current swift limitations, we have to include this Box in Result.
 // Swift cannot handle an enum with multiple associated data (A, NSError) where one is of unknown size (A)
-final class Box<T> {
+final public class Box<T> {
   let unbox: T
   init(_ value: T) { self.unbox = value }
 }

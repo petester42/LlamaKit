@@ -14,12 +14,6 @@
 		FB2F8DA019BFA03D00E4C49E /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F8D9F19BFA03D00E4C49E /* Error.swift */; };
 		FB2F8DA219BFA16400E4C49E /* Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F8DA119BFA16400E4C49E /* Future.swift */; };
 		FB2F8DA319BFA16400E4C49E /* Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F8DA119BFA16400E4C49E /* Future.swift */; };
-		FB2F8DA519BFA17000E4C49E /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F8DA419BFA17000E4C49E /* Promise.swift */; };
-		FB2F8DA619BFA17000E4C49E /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F8DA419BFA17000E4C49E /* Promise.swift */; };
-		FB2F8DA919BFA18800E4C49E /* ExecutionContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F8DA719BFA18800E4C49E /* ExecutionContext.swift */; };
-		FB2F8DAA19BFA18800E4C49E /* ExecutionContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F8DA719BFA18800E4C49E /* ExecutionContext.swift */; };
-		FB2F8DAB19BFA18800E4C49E /* GCDExecutionContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F8DA819BFA18800E4C49E /* GCDExecutionContext.swift */; };
-		FB2F8DAC19BFA18800E4C49E /* GCDExecutionContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F8DA819BFA18800E4C49E /* GCDExecutionContext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,8 +27,6 @@
 		FB2F8D9F19BFA03D00E4C49E /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		FB2F8DA119BFA16400E4C49E /* Future.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Future.swift; sourceTree = "<group>"; };
 		FB2F8DA419BFA17000E4C49E /* Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Promise.swift; sourceTree = "<group>"; };
-		FB2F8DA719BFA18800E4C49E /* ExecutionContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExecutionContext.swift; sourceTree = "<group>"; };
-		FB2F8DA819BFA18800E4C49E /* GCDExecutionContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDExecutionContext.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,8 +106,6 @@
 			isa = PBXGroup;
 			children = (
 				FB2F8DA119BFA16400E4C49E /* Future.swift */,
-				FB2F8DA719BFA18800E4C49E /* ExecutionContext.swift */,
-				FB2F8DA819BFA18800E4C49E /* GCDExecutionContext.swift */,
 				FB2F8DA419BFA17000E4C49E /* Promise.swift */,
 			);
 			name = Future;
@@ -228,11 +218,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB2F8DA219BFA16400E4C49E /* Future.swift in Sources */,
-				FB2F8DA919BFA18800E4C49E /* ExecutionContext.swift in Sources */,
 				FB2F8DA019BFA03D00E4C49E /* Error.swift in Sources */,
 				FB2F8D9B19BF661000E4C49E /* Result.swift in Sources */,
-				FB2F8DA519BFA17000E4C49E /* Promise.swift in Sources */,
-				FB2F8DAB19BFA18800E4C49E /* GCDExecutionContext.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -241,11 +228,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB2F8DA319BFA16400E4C49E /* Future.swift in Sources */,
-				FB2F8DAA19BFA18800E4C49E /* ExecutionContext.swift in Sources */,
 				FB2F8D9C19BF661300E4C49E /* Result.swift in Sources */,
 				FB2F8D9119BF637B00E4C49E /* LlamaKitTests.swift in Sources */,
-				FB2F8DA619BFA17000E4C49E /* Promise.swift in Sources */,
-				FB2F8DAC19BFA18800E4C49E /* GCDExecutionContext.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -419,6 +403,7 @@
 				FB2F8D9619BF637B00E4C49E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FB2F8D9719BF637B00E4C49E /* Build configuration list for PBXNativeTarget "LlamaKitTests" */ = {
 			isa = XCConfigurationList;
@@ -427,6 +412,7 @@
 				FB2F8D9919BF637B00E4C49E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
