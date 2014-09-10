@@ -20,7 +20,7 @@ public class Future<T> {
 
   let processingQueue: dispatch_queue_t
 
-  public init(queue: dispatch_queue_t = sharedProcessingQueue) {
+  internal init(queue: dispatch_queue_t = sharedProcessingQueue) {
     self.processingQueue = queue
     dispatch_group_enter(self.resultReadyGroup)
   }
@@ -43,7 +43,6 @@ public class Future<T> {
     dispatch_group_notify(self.resultReadyGroup, processingQueue) { f(self._value!) }
   }
 
-  // FIXME: Implement on top of onComplete w/ switch
   public func onSuccess(f: T -> ()) {
     dispatch_group_notify(self.resultReadyGroup, self.processingQueue) {
       switch self._value! {
@@ -54,7 +53,6 @@ public class Future<T> {
     }
   }
 
-  // FIXME: Implement on top of onComplete w/ switch
   public func onFailure(f: NSError -> ()) {
     dispatch_group_notify(self.resultReadyGroup, self.processingQueue) {
       switch self._value! {
@@ -68,7 +66,6 @@ public class Future<T> {
     dispatch_async(mutateQueue) {
       precondition(self._value == nil, "Future cannot complete more than once")
       self._value = x
-//      for handler in self.onCompleteHandlers { handler(success(x)) }
       dispatch_group_leave(self.resultReadyGroup)
     }
   }
@@ -108,7 +105,7 @@ public class Future<T> {
   }
 }
 
-func sequence<T>(futures: [Future<T>]) -> Future<[T]> {
+public func sequence<T>(futures: [Future<T>]) -> Future<[T]> {
   return future {
     return futures.reduce(success([T]())) { acc, fu in
       switch acc {
@@ -126,10 +123,10 @@ func sequence<T>(futures: [Future<T>]) -> Future<[T]> {
 // FIXME: This should be combinable with the Result version.
 // But not sure how to define Functor without forcing Result and Future to be subclasses
 // Result is an enum, so that's hard.
-func <**><T,U>(x: Future<T>, f: T -> U) -> Future<U> {
+public func <**><T,U>(x: Future<T>, f: T -> U) -> Future<U> {
   return x.map(f)
 }
 
-func future<T>(f: () -> Result<T>) -> Future<T> {
+public func future<T>(f: () -> Result<T>) -> Future<T> {
   return Future(f)
 }

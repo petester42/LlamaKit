@@ -8,10 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		FB2F8D8719BF637B00E4C49E /* LlamaKit.h in Headers */ = {isa = PBXBuildFile; fileRef = FB2F8D8619BF637B00E4C49E /* LlamaKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FB2F8D9119BF637B00E4C49E /* LlamaKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F8D9019BF637B00E4C49E /* LlamaKitTests.swift */; };
+		FB2F8D9119BF637B00E4C49E /* ResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F8D9019BF637B00E4C49E /* ResultTests.swift */; };
 		FB2F8D9B19BF661000E4C49E /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F8D9A19BF661000E4C49E /* Result.swift */; };
 		FB2F8D9C19BF661300E4C49E /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F8D9A19BF661000E4C49E /* Result.swift */; };
-		FB2F8DA019BFA03D00E4C49E /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F8D9F19BFA03D00E4C49E /* Error.swift */; };
 		FB2F8DA219BFA16400E4C49E /* Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F8DA119BFA16400E4C49E /* Future.swift */; };
 		FB2F8DA319BFA16400E4C49E /* Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F8DA119BFA16400E4C49E /* Future.swift */; };
 /* End PBXBuildFile section */
@@ -22,9 +21,8 @@
 		FB2F8D8619BF637B00E4C49E /* LlamaKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LlamaKit.h; sourceTree = "<group>"; };
 		FB2F8D8C19BF637B00E4C49E /* LlamaKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LlamaKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB2F8D8F19BF637B00E4C49E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FB2F8D9019BF637B00E4C49E /* LlamaKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LlamaKitTests.swift; sourceTree = "<group>"; };
+		FB2F8D9019BF637B00E4C49E /* ResultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultTests.swift; sourceTree = "<group>"; };
 		FB2F8D9A19BF661000E4C49E /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
-		FB2F8D9F19BFA03D00E4C49E /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		FB2F8DA119BFA16400E4C49E /* Future.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Future.swift; sourceTree = "<group>"; };
 		FB2F8DA419BFA17000E4C49E /* Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Promise.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -54,7 +52,10 @@
 				FB2F8D8D19BF637B00E4C49E /* LlamaKitTests */,
 				FB2F8D8219BF637B00E4C49E /* Products */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
+			usesTabs = 0;
 		};
 		FB2F8D8219BF637B00E4C49E /* Products */ = {
 			isa = PBXGroup;
@@ -70,7 +71,6 @@
 			children = (
 				FB2F8D8619BF637B00E4C49E /* LlamaKit.h */,
 				FB2F8D9A19BF661000E4C49E /* Result.swift */,
-				FB2F8D9F19BFA03D00E4C49E /* Error.swift */,
 				FB2F8DAD19BFA19200E4C49E /* Future */,
 				FB2F8D8419BF637B00E4C49E /* Supporting Files */,
 			);
@@ -88,7 +88,7 @@
 		FB2F8D8D19BF637B00E4C49E /* LlamaKitTests */ = {
 			isa = PBXGroup;
 			children = (
-				FB2F8D9019BF637B00E4C49E /* LlamaKitTests.swift */,
+				FB2F8D9019BF637B00E4C49E /* ResultTests.swift */,
 				FB2F8D8E19BF637B00E4C49E /* Supporting Files */,
 			);
 			path = LlamaKitTests;
@@ -218,7 +218,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB2F8DA219BFA16400E4C49E /* Future.swift in Sources */,
-				FB2F8DA019BFA03D00E4C49E /* Error.swift in Sources */,
 				FB2F8D9B19BF661000E4C49E /* Result.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -229,7 +228,7 @@
 			files = (
 				FB2F8DA319BFA16400E4C49E /* Future.swift in Sources */,
 				FB2F8D9C19BF661300E4C49E /* Result.swift in Sources */,
-				FB2F8D9119BF637B00E4C49E /* LlamaKitTests.swift in Sources */,
+				FB2F8D9119BF637B00E4C49E /* ResultTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

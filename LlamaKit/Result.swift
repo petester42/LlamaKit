@@ -12,7 +12,7 @@ public func success<T>(value: T) -> Result<T> {
   return .Success(Box(value))
 }
 
-public func failure<T>(error: NSError) -> Result<T> {
+public func failure<T>(_ error: NSError = NSError(domain: "", code: 0, userInfo: nil)) -> Result<T> {
   return .Failure(error)
 }
 
@@ -20,13 +20,26 @@ public enum Result<T> {
   case Success(Box<T>)
   case Failure(NSError)
 
+  func value() -> T? {
+    switch self {
+    case .Success(let box): return box.unbox
+    case .Failure(_): return nil
+    }
+  }
+
+  func error() -> NSError? {
+    switch self {
+    case .Success(_): return nil
+    case .Failure(let err): return err
+    }
+  }
+
   func isSuccess() -> Bool {
     switch self {
     case .Success(_): return true
     case .Failure(_): return false
     }
   }
-
 
   func map<U>(f: T -> U) -> Result<U> {
     switch self {
@@ -52,8 +65,21 @@ extension Result: Printable {
       return "Success: \(box.unbox)"
     case .Failure(let error):
       return "Failure: \(error.localizedDescription)"
-      }
+    }
   }
+}
+
+public func == <T: Equatable>(lhs: Result<T>, rhs: Result<T>) -> Bool {
+  switch (lhs, rhs) {
+  case (.Success(_), .Success(_)): return lhs.value() == rhs.value()
+  case (.Success(_), .Failure(_)): return false
+  case (.Failure(let lhsErr), .Failure(let rhsErr)): return lhsErr == rhsErr
+  case (.Failure(_), .Success(_)): return false
+  }
+}
+
+public func != <T: Equatable>(lhs: Result<T>, rhs: Result<T>) -> Bool {
+  return !(lhs == rhs)
 }
 
 // Due to current swift limitations, we have to include this Box in Result.
@@ -65,33 +91,27 @@ final public class Box<T> {
 
 infix operator >>== {associativity left}
 
-func >>==<A,B>(a: Result<A>, f: A -> Result<B>) -> Result<B> {
-  return a.flatMap(f)
+func >>==<T,U>(x: Result<T>, f: T -> Result<U>) -> Result<U> {
+  return x.flatMap(f)
 }
 
-infix operator <*> {associativity left}
+infix operator <*> {}
 
-func <*><A,B>(f: A -> B, a: Result<A>) -> Result<B> {
-  return a.map(f)
+func <*><T,U>(f: T -> U, x: Result<T>) -> Result<U> {
+  return x.map(f)
 }
 
-infix operator <**> {associativity left}
-func <**><A,B>(a: Result<A>, f: A -> B) -> Result<B> {
-  return a.map(f)
+infix operator <**> {}
+func <**><T,U>(x: Result<T>, f: T -> U) -> Result<U> {
+  return x.map(f)
 }
 
-infix operator <^> {associativity left}
-
-func <^><A,B>(f: A -> B, a: A) -> Result<B> {
-  return f <*> .Success(Box(a))
+func flatMap<T,U>(x: Result<T>, f: T -> Result<U>) -> Result<U> {
+  return x.flatMap(f)
 }
 
-func flatMap<A,B>(a: Result<A>, f: A -> Result<B>) -> Result<B> {
-  return a.flatMap(f)
-}
-
-func successes<A>(results: [Result<A>]) -> [A] {
-  return results.reduce([A]()) { successes, result in
+public func successes<T>(results: [Result<T>]) -> [T] {
+  return results.reduce([T]()) { successes, result in
     switch result {
     case .Success(let value): return successes + [value.unbox]
     case .Failure(_): return successes
@@ -99,7 +119,7 @@ func successes<A>(results: [Result<A>]) -> [A] {
   }
 }
 
-func failures<A>(results: [Result<A>]) -> [NSError] {
+func failures<T>(results: [Result<T>]) -> [NSError] {
   return results.reduce([NSError]()) { failures, result in
     switch result {
     case .Success(_): return failures
@@ -108,8 +128,8 @@ func failures<A>(results: [Result<A>]) -> [NSError] {
   }
 }
 
-func sequence<A>(results: [Result<A>]) -> Result<[A]> {
-  return results.reduce(Result.Success(Box([A]()))) { acc, result in
+func sequence<T>(results: [Result<T>]) -> Result<[T]> {
+  return results.reduce(success([T]())) { acc, result in
     switch (acc, result) {
     case (.Success(let successes), .Success(let success)):
       return .Success(Box(successes.unbox + [success.unbox]))
