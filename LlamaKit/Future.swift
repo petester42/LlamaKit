@@ -10,7 +10,7 @@ private let sharedProcessingQueue = dispatch_queue_create("llama.future.shared-p
 
 public class Future<T> {
   private var _value: T?
-  var onCompleteHandlers: [(Result<T> -> ())] = []
+  var onCompleteHandlers: [(T -> ())] = []
 
   // The resultQueue is used to read the result. It begins suspended
   // and is resumed once a result exists.
@@ -39,7 +39,7 @@ public class Future<T> {
     return isCompleted
   }
 
-  public func onComplete(f: Result<T> -> ()) {
+  public func onComplete(f: T -> ()) {
     dispatch_async(mutateQueue) {
       self.onCompleteHandlers += [f]
     }
@@ -49,7 +49,7 @@ public class Future<T> {
     dispatch_async(mutateQueue) {
       precondition(self._value == nil, "Future cannot complete more than once")
       self._value = x
-      for handler in self.onCompleteHandlers { handler(success(x)) }
+      for handler in self.onCompleteHandlers { handler(x) }
       dispatch_group_leave(self.resultReadyGroup)
     }
   }
