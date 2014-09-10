@@ -12,3 +12,7 @@ though there are some small differences. I haven't decided if a `Promise` ISA `F
 is a weird hybrid. It technically HASA `Future`, but in the main implementation, the `Promise` is its own `Future`, so it's
 kind of ISA, too. Still a work in progress there. I'm considering pulling `Future` out; it already makes this module too
 complicated (did I mention that LlamaKit wants to be really, really simple?)
+
+LlamaKit should be considered highly experimental, pre-alpha, in development, I promise I will break you.
+
+But the `Result` object is kind of nice already if you want to go ahead and use it. :D
