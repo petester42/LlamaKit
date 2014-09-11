@@ -6,12 +6,20 @@
 
 import Foundation
 
+//
+// IN PROGRESS: Will probably split out Future (returning T) from Task (returning Result<T>).
+//
+
 private let sharedFutureProcessingQueue = dispatch_queue_create("llama.future.shared-processing", DISPATCH_QUEUE_CONCURRENT)
 
 //var future: Future = Future.withQueue(sharedFutureProcessingQueue)
 //func withQueue(queue: dispatch_queue_t) -> <T>(f: () -> Result<T>) -> Future<T> {
 //  return Future<T>(queue: queue, f)
 //}
+
+public func FutureWithQueue<T>(queue: dispatch_queue_t)(f: () -> Result<T>) -> Future<T> {
+  return Future<T>(queue: queue, f)
+}
 
 
 public class Future<T> {
@@ -32,9 +40,6 @@ public class Future<T> {
     dispatch_async(self.processingQueue) { self.completeWith(f()) }
   }
 
-//  public class func withQueue(queue: dispatch_queue_t)(f: () -> Result<U>) -> Future<U> {
-//    return Future<U>(queue: queue, f)
-//  }
 
   public func isCompleted() -> Bool {
     var isCompleted: Bool = false
