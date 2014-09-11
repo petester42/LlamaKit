@@ -6,29 +6,35 @@
 
 import Foundation
 
-private let sharedProcessingQueue = dispatch_queue_create("llama.future.shared-processing", DISPATCH_QUEUE_CONCURRENT)
+private let sharedFutureProcessingQueue = dispatch_queue_create("llama.future.shared-processing", DISPATCH_QUEUE_CONCURRENT)
+
+//var future: Future = Future.withQueue(sharedFutureProcessingQueue)
+//func withQueue(queue: dispatch_queue_t) -> <T>(f: () -> Result<T>) -> Future<T> {
+//  return Future<T>(queue: queue, f)
+//}
+
 
 public class Future<T> {
-  private var _value: Result<T>?
 
-  // The resultQueue is used to read the result. It begins suspended
-  // and is resumed once a result exists.
-  // FIXME: Would like to add a uniqueid to the label
   let resultReadyGroup = dispatch_group_create()
-
   let mutateQueue = dispatch_queue_create("llama.future.value", DISPATCH_QUEUE_SERIAL)
-
   let processingQueue: dispatch_queue_t
 
-  internal init(queue: dispatch_queue_t = sharedProcessingQueue) {
+  private var _value: Result<T>?
+
+  internal init(queue: dispatch_queue_t) {
     self.processingQueue = queue
     dispatch_group_enter(self.resultReadyGroup)
   }
 
-  public convenience init(_ f: () -> Result<T>, queue: dispatch_queue_t = sharedProcessingQueue) {
+  public convenience init(queue: dispatch_queue_t, _ f: () -> Result<T>) {
     self.init(queue: queue)
     dispatch_async(self.processingQueue) { self.completeWith(f()) }
   }
+
+//  public class func withQueue(queue: dispatch_queue_t)(f: () -> Result<U>) -> Future<U> {
+//    return Future<U>(queue: queue, f)
+//  }
 
   public func isCompleted() -> Bool {
     var isCompleted: Bool = false
@@ -38,7 +44,6 @@ public class Future<T> {
     return isCompleted
   }
 
-  // FIXME: Use dispatch_group_notify to schedule
   public func onComplete(f: Result<T> -> ()) {
     dispatch_group_notify(self.resultReadyGroup, processingQueue) { f(self._value!) }
   }
@@ -83,7 +88,7 @@ public class Future<T> {
   }
 
   public func map<U>(f: T -> U) -> Future<U> {
-    let newFuture = Future<U>()
+    let newFuture = Future<U>(queue: self.processingQueue)
     self.onComplete { r in
       switch r {
       case .Success(let box): newFuture.completeWith(success(f(box.unbox)))
@@ -94,7 +99,7 @@ public class Future<T> {
   }
 
   public func flatMap<U>(f: T -> Future<U>) -> Future<U> {
-    let newFuture = Future<U>()
+    let newFuture = Future<U>(queue: self.processingQueue)
     self.onComplete { r in
       switch r {
       case .Success(let box): newFuture.completeWith(f(box.unbox).result())
@@ -128,5 +133,5 @@ public func <**><T,U>(x: Future<T>, f: T -> U) -> Future<U> {
 }
 
 public func future<T>(f: () -> Result<T>) -> Future<T> {
-  return Future(f)
+  return Future(queue: sharedFutureProcessingQueue, f)
 }
