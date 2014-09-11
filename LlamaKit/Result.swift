@@ -102,6 +102,15 @@ public func successes<T>(results: [Result<T>]) -> [T] {
   }
 }
 
+// The following may work, but crashes the compiler in Xcode.
+// It does compile if built from the commandline as just "xcrun swift main.swift"
+// with no other options. radar://18305099
+//
+//public func successes<Seq: SequenceType, T where Seq.Generator.Element == Result<T>>(results: Seq) -> [T] {
+//  return filter(results, { (x: Result<T>) -> Bool in x.isSuccess() })
+//    .map{ $0.value()! }
+//}
+
 /// Given an array of results, returns an array of failing errors
 func failures<T>(results: [Result<T>]) -> [NSError] {
   return results.reduce([NSError]()) { failures, result in
