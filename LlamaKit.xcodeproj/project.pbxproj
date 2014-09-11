@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FB2E50E819C2345A005000EF /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2E50E719C2345A005000EF /* Task.swift */; };
 		FB2F8D8719BF637B00E4C49E /* LlamaKit.h in Headers */ = {isa = PBXBuildFile; fileRef = FB2F8D8619BF637B00E4C49E /* LlamaKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FB2F8D9119BF637B00E4C49E /* ResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F8D9019BF637B00E4C49E /* ResultTests.swift */; };
 		FB2F8D9B19BF661000E4C49E /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F8D9A19BF661000E4C49E /* Result.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FB2E50E719C2345A005000EF /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		FB2F8D8119BF637B00E4C49E /* LlamaKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LlamaKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB2F8D8519BF637B00E4C49E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FB2F8D8619BF637B00E4C49E /* LlamaKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LlamaKit.h; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				FB2F8DA119BFA16400E4C49E /* Future.swift */,
+				FB2E50E719C2345A005000EF /* Task.swift */,
 				FB2F8DA419BFA17000E4C49E /* Promise.swift */,
 			);
 			name = Future;
@@ -221,6 +224,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB2F8DA219BFA16400E4C49E /* Future.swift in Sources */,
+				FB2E50E819C2345A005000EF /* Task.swift in Sources */,
 				FB2F8D9B19BF661000E4C49E /* Result.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
