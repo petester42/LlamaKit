@@ -2,7 +2,12 @@ LlamaKit
 ========
 
 Collection of must-have functional tools. Trying to be as lightweight as possible, hopefully providing a simple foundation that
-more advanced systems can build on.
+more advanced systems can build on. LlamaKit is very Cocoa-focused. It is designed to work with common Cocoa paradigms, use names
+that are understandable to Cocoa devs, integrate with Cocoa tools like GCD, and in general strive for a low-to-modest learning
+curve for devs familiar with ObjC and Swift rather than Haskell and ML. There are more functionally beautiful toolkits out there
+(see [Swiftz](https://github.com/maxpow4h/swiftz) and [Swift-Extras](https://github.com/CodaFi/Swift-Extras) for some nice
+examples). LlamaKit intentionally is much less full-featured, and is focused only on things that come up commonly in Cocoa
+development.
 
 Currently has a `Result` object, which is the most critical. (And in the end, it may be the *only* thing in the main module.)
 `Result` is mostly done except for documentation (in progress). Tests are built.
