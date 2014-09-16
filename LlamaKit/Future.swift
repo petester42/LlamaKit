@@ -8,11 +8,11 @@ import Foundation
 
 private let sharedFutureProcessingQueue = dispatch_queue_create("llama.future.shared-processing", DISPATCH_QUEUE_CONCURRENT)
 
-public class Future<T> {
+public final class Future<T> {
 
-  let resultReadyGroup = dispatch_group_create()
-  let mutateQueue = dispatch_queue_create("llama.future.value", DISPATCH_QUEUE_SERIAL)
-  let processingQueue: dispatch_queue_t
+  private let resultReadyGroup = dispatch_group_create()
+  private let mutateQueue = dispatch_queue_create("llama.future.value", DISPATCH_QUEUE_SERIAL)
+  private let processingQueue: dispatch_queue_t
 
   private var _value: T?
 
@@ -46,11 +46,11 @@ public class Future<T> {
     }
   }
 
-  public func value() -> T {
-    return self.waitValue()!
+  public func result() -> T {
+    return self.waitResult()!
   }
 
-  public func waitValue(timeout: dispatch_time_t = DISPATCH_TIME_FOREVER) -> T? {
+  public func waitResult(timeout: dispatch_time_t = DISPATCH_TIME_FOREVER) -> T? {
     if dispatch_group_wait(self.resultReadyGroup, timeout) == 0 {
       return self._value!
     } else {
@@ -66,22 +66,30 @@ public class Future<T> {
 
   public func flatMap<U>(f: T -> Future<U>) -> Future<U> {
     let newFuture = Future<U>(queue: self.processingQueue)
-    self.onComplete { x in newFuture.completeWith(f(x).value()) }
+    self.onComplete { x in newFuture.completeWith(f(x).result()) }
     return newFuture
   }
 }
 
 public func sequence<T>(futures: [Future<T>]) -> Future<[T]> {
   return future {
-    return futures.reduce([T]()) { acc, x in acc + [x.value()] }
+    return futures.reduce([T]()) { acc, x in acc + [x.result()] }
   }
 }
 
 // FIXME: This should be combinable with the Result version.
 // But not sure how to define Functor without forcing Result and Future to be subclasses
 // Result is an enum, so that's hard.
+public func map <T,U>(x: Future<T>, f: T -> U) -> Future<U> {
+  return x.map(f)
+}
+
 public func <**> <T,U>(x: Future<T>, f: T -> U) -> Future<U> {
   return x.map(f)
+}
+
+public func flatMap <T,U>(x: Future<T>, f: T -> Future<U>) -> Future<U> {
+  return x.flatMap(f)
 }
 
 public func >>== <T,U>(x: Future<T>, f: T -> Future<U>) -> Future<U> {
@@ -93,7 +101,7 @@ public func future<T>(f: () -> T) -> Future<T> {
 }
 
 extension dispatch_queue_t {
-  final func future<T>(f: () -> T) -> Future<T> {
+  public final func future<T>(f: () -> T) -> Future<T> {
     return Future(queue: self, f)
   }
 }
