@@ -26,7 +26,6 @@ public class Future<T> {
     dispatch_async(self.processingQueue) { self.completeWith(f()) }
   }
 
-
   public func isCompleted() -> Bool {
     var isCompleted: Bool = false
     dispatch_sync(self.mutateQueue) {
@@ -86,5 +85,11 @@ public func <**><T,U>(x: Future<T>, f: T -> U) -> Future<U> {
 }
 
 public func future<T>(f: () -> T) -> Future<T> {
-  return Future(queue: sharedFutureProcessingQueue, f)
+  return sharedFutureProcessingQueue.future(f)
+}
+
+extension dispatch_queue_t {
+  final func future<T>(f: () -> T) -> Future<T> {
+    return Future(queue: self, f)
+  }
 }

@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 Rob Napier. All rights reserved.
 //
 
-//
-// Not yet implemented
+// A Promise manages a Future<Result<T>> that you complete manually (rather than with a computation)
+//   Not yet implemented
 //
 
 import Foundation
