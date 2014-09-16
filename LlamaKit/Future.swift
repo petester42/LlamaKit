@@ -46,11 +46,11 @@ public class Future<T> {
     }
   }
 
-  public func result() -> T {
-    return self.waitResult()!
+  public func value() -> T {
+    return self.waitValue()!
   }
 
-  public func waitResult(timeout: dispatch_time_t = DISPATCH_TIME_FOREVER) -> T? {
+  public func waitValue(timeout: dispatch_time_t = DISPATCH_TIME_FOREVER) -> T? {
     if dispatch_group_wait(self.resultReadyGroup, timeout) == 0 {
       return self._value!
     } else {
@@ -66,22 +66,26 @@ public class Future<T> {
 
   public func flatMap<U>(f: T -> Future<U>) -> Future<U> {
     let newFuture = Future<U>(queue: self.processingQueue)
-    self.onComplete { x in newFuture.completeWith(f(x).result()) }
+    self.onComplete { x in newFuture.completeWith(f(x).value()) }
     return newFuture
   }
 }
 
 public func sequence<T>(futures: [Future<T>]) -> Future<[T]> {
   return future {
-    return futures.reduce([T]()) { acc, x in acc + [x.result()] }
+    return futures.reduce([T]()) { acc, x in acc + [x.value()] }
   }
 }
 
 // FIXME: This should be combinable with the Result version.
 // But not sure how to define Functor without forcing Result and Future to be subclasses
 // Result is an enum, so that's hard.
-public func <**><T,U>(x: Future<T>, f: T -> U) -> Future<U> {
+public func <**> <T,U>(x: Future<T>, f: T -> U) -> Future<U> {
   return x.map(f)
+}
+
+public func >>== <T,U>(x: Future<T>, f: T -> Future<U>) -> Future<U> {
+  return x.flatMap(f)
 }
 
 public func future<T>(f: () -> T) -> Future<T> {

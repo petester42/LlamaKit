@@ -182,7 +182,7 @@ func <*><T,U>(f: T -> U, x: Result<T>) -> Result<U> {
 }
 
 /// flipped map (value first, like >>==)
-infix operator <**> {}
+infix operator <**> { associativity left }
 func <**><T,U>(x: Result<T>, f: T -> U) -> Result<U> {
   return x.map(f)
 }
