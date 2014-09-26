@@ -57,9 +57,9 @@ public enum Result<T> {
   public func map<U>(transform: T -> U) -> Result<U> {
     switch self {
     case Success(let box):
-      return success(transform(box.unbox))
+      return .Success(Box(transform(box.unbox)))
     case Failure(let err):
-      return failure(err)
+      return .Failure(err)
     }
   }
 
@@ -80,73 +80,10 @@ extension Result: Printable {
     case .Success(let box):
       return "Success: \(box.unbox)"
     case .Failure(let error):
-      return "Failure: \(error.localizedDescription)"
+      return "Failure: \(error)"
     }
   }
 }
-
-//
-// Conversions for Arrays
-// FIXME: It would be nice to apply these to SequenceType.
-// It's unclear how to generate an initial value to pass to reduce.
-// It may be possible using filter+map instead
-//
-
-/// Given an array of results, returns an array of successful values
-public func successes<T>(results: [Result<T>]) -> [T] {
-  return results.reduce([T]()) { successes, result in
-    switch result {
-    case .Success(let value): return successes + [value.unbox]
-    case .Failure(_): return successes
-    }
-  }
-}
-
-// The following may work, but crashes the compiler in Xcode.
-// It does compile if built from the commandline as just "xcrun swift main.swift"
-// with no other options. radar://18305099
-//
-//public func successes<Seq: SequenceType, T where Seq.Generator.Element == Result<T>>(results: Seq) -> [T] {
-//  return filter(results, { (x: Result<T>) -> Bool in x.isSuccess() })
-//    .map{ $0.value()! }
-//}
-
-/// Given an array of results, returns an array of failing errors
-func failures<T>(results: [Result<T>]) -> [NSError] {
-  return results.reduce([NSError]()) { failures, result in
-    switch result {
-    case .Success(_): return failures
-    case .Failure(let error): return failures + [error]
-    }
-  }
-}
-
-/// Given an array of results returns a result of an array. If any of the
-/// results are failures, the returned result is a failure.
-func sequence<T>(results: [Result<T>]) -> Result<[T]> {
-  return results.reduce(success([T]())) { acc, result in
-    switch (acc, result) {
-    case (.Success(let successes), .Success(let success)):
-      return .Success(Box(successes.unbox + [success.unbox]))
-    case (.Success(let successes), .Failure(let error)):
-      return .Failure(error)
-    default: return acc
-    }
-  }
-}
-
-//
-// Functional forms of methods
-//
-
-func map<T,U>(x: Result<T>, f: T -> U) -> Result<U> {
-  return x.map(f)
-}
-
-func flatMap<T,U>(x: Result<T>, f: T -> Result<U>) -> Result<U> {
-  return x.flatMap(f)
-}
-
 
 /// Note that while it is possible to use `==` on results that contain
 /// an Equatable type, Result is not itself Equatable. This is because
@@ -165,31 +102,9 @@ public func != <T: Equatable>(lhs: Result<T>, rhs: Result<T>) -> Bool {
   return !(lhs == rhs)
 }
 
-//
-// Operators
-//
-
-/// flatMap (bind)
-infix operator >>== {associativity left}
-public func >>==<T,U>(x: Result<T>, f: T -> Result<U>) -> Result<U> {
-  return x.flatMap(f)
-}
-
-/// map (function first)
-infix operator <*> {}
-public func <*><T,U>(f: T -> U, x: Result<T>) -> Result<U> {
-  return x.map(f)
-}
-
-/// flipped map (value first, like >>==)
-infix operator <**> { associativity left }
-public func <**><T,U>(x: Result<T>, f: T -> U) -> Result<U> {
-  return x.map(f)
-}
-
 /// Failure coalescing
-///    success(42) ?? 0 ==> 42
-///    failure() ?? 0 ==> 0
+///    .Success(Box(42)) ?? 0 ==> 42
+///    .Failure(NSError()) ?? 0 ==> 0
 func ??<T>(result: Result<T>, defaultValue: @autoclosure () -> T) -> T {
   switch result {
   case .Success(let value):

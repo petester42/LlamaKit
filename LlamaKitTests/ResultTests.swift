@@ -107,7 +107,7 @@ class ResultTests: XCTestCase {
 
   func testDescriptionFailure() {
     let x: Result<String> = failure()
-    XCTAssertEqual(x.description, "Failure: The operation couldn’t be completed. ( error 0.)")
+    XCTAssertEqual(x.description, "Failure: Error Domain= Code=0 \"The operation couldn’t be completed. ( error 0.)\"")
   }
 
   func testEqualitySuccessSuccessEqual() {
@@ -144,30 +144,6 @@ class ResultTests: XCTestCase {
     let x: Result<Int> = failure(err)
     let y: Result<Int> = failure(err2)
     XCTAssertTrue(x != y)
-  }
-
-  func testSuccesses() {
-    let x = [success(1), success(2), success(3), failure(), success(4)]
-    let succ = successes(x)
-    XCTAssertEqual(succ, [1,2,3,4])
-  }
-
-  func testFailures() {
-    let x = [success(1), failure(err), success(3), failure(err2), success(4)]
-    let fail = failures(x)
-    XCTAssertEqual(fail, [err, err2])
-  }
-
-  func testSequenceSuccess() {
-    let results = [success(1), success(2), success(3)]
-    let seq = sequence(results)
-    XCTAssertTrue(seq.isSuccess() && seq.value()! == [1,2,3])
-  }
-
-  func testSequenceFailure() {
-    let results = [success(1), success(2), failure(), success(3)]
-    let seq = sequence(results)
-    XCTAssertFalse(seq.isSuccess())
   }
 
   func testCoalesceSuccess() {
