@@ -15,3 +15,7 @@ Currently has a `Result` object, which is the most critical. (And in the end, it
 LlamaKit should be considered highly experimental, pre-alpha, in development, I promise I will break you.
 
 But the `Result` object is kind of nice already if you want to go ahead and use it. :D
+
+(Note that I've moved the async objects, Future, Promise, Task, out of this repo. I'm working on them further, but they'll
+go into some other repo like LlamaKit-async. This repo is meant to be very, very core stuff that almost everyone will want.
+Async is too big for that.)
