@@ -30,7 +30,7 @@ public enum Result<T> {
   case Failure(NSError)
 
   /// The successful value as an Optional
-  func value() -> T? {
+  public func value() -> T? {
     switch self {
     case .Success(let box): return box.unbox
     case .Failure(_): return nil
@@ -38,14 +38,14 @@ public enum Result<T> {
   }
 
   /// The failing error as an Optional
-  func error() -> NSError? {
+  public func error() -> NSError? {
     switch self {
     case .Success(_): return nil
     case .Failure(let err): return err
     }
   }
 
-  func isSuccess() -> Bool {
+  public func isSuccess() -> Bool {
     switch self {
     case .Success(_): return true
     case .Failure(_): return false
@@ -54,7 +54,7 @@ public enum Result<T> {
 
   /// Return a new result after applying a transformation to a successful value.
   /// Mapping a failure returns a new failure without evaluating the transform
-  func map<U>(transform: T -> U) -> Result<U> {
+  public func map<U>(transform: T -> U) -> Result<U> {
     switch self {
     case Success(let box):
       return success(transform(box.unbox))
@@ -66,7 +66,7 @@ public enum Result<T> {
   /// Return a new result after applying a transformation (that itself
   /// returns a result) to a successful value.
   /// Flat mapping a failure returns a new failure without evaluating the transform
-  func flatMap<U>(transform:T -> Result<U>) -> Result<U> {
+  public func flatMap<U>(transform:T -> Result<U>) -> Result<U> {
     switch self {
     case Success(let value): return transform(value.unbox)
     case Failure(let error): return .Failure(error)
@@ -171,19 +171,19 @@ public func != <T: Equatable>(lhs: Result<T>, rhs: Result<T>) -> Bool {
 
 /// flatMap (bind)
 infix operator >>== {associativity left}
-func >>==<T,U>(x: Result<T>, f: T -> Result<U>) -> Result<U> {
+public func >>==<T,U>(x: Result<T>, f: T -> Result<U>) -> Result<U> {
   return x.flatMap(f)
 }
 
 /// map (function first)
 infix operator <*> {}
-func <*><T,U>(f: T -> U, x: Result<T>) -> Result<U> {
+public func <*><T,U>(f: T -> U, x: Result<T>) -> Result<U> {
   return x.map(f)
 }
 
 /// flipped map (value first, like >>==)
 infix operator <**> { associativity left }
-func <**><T,U>(x: Result<T>, f: T -> U) -> Result<U> {
+public func <**><T,U>(x: Result<T>, f: T -> U) -> Result<U> {
   return x.map(f)
 }
 
