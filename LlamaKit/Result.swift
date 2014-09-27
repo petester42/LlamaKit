@@ -105,7 +105,7 @@ public func != <T: Equatable>(lhs: Result<T>, rhs: Result<T>) -> Bool {
 /// Failure coalescing
 ///    .Success(Box(42)) ?? 0 ==> 42
 ///    .Failure(NSError()) ?? 0 ==> 0
-func ??<T>(result: Result<T>, defaultValue: @autoclosure () -> T) -> T {
+public func ??<T>(result: Result<T>, defaultValue: @autoclosure () -> T) -> T {
   switch result {
   case .Success(let value):
     return value.unbox
@@ -121,6 +121,6 @@ func ??<T>(result: Result<T>, defaultValue: @autoclosure () -> T) -> T {
 /// Due to current swift limitations, we have to include this Box in Result.
 /// Swift cannot handle an enum with multiple associated data (A, NSError) where one is of unknown size (A)
 final public class Box<T> {
-  let unbox: T
-  init(_ value: T) { self.unbox = value }
+  public let unbox: T
+  public init(_ value: T) { self.unbox = value }
 }
