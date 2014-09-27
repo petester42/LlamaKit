@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "FB2F8D8019BF637B00E4C49E"
-               BuildableName = "LlamaKit-iOS.framework"
+               BuildableName = "LlamaKit.framework"
                BlueprintName = "LlamaKit-iOS"
                ReferencedContainer = "container:LlamaKit.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FB2F8D8019BF637B00E4C49E"
-            BuildableName = "LlamaKit-iOS.framework"
+            BuildableName = "LlamaKit.framework"
             BlueprintName = "LlamaKit-iOS"
             ReferencedContainer = "container:LlamaKit.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FB2F8D8019BF637B00E4C49E"
-            BuildableName = "LlamaKit-iOS.framework"
+            BuildableName = "LlamaKit.framework"
             BlueprintName = "LlamaKit-iOS"
             ReferencedContainer = "container:LlamaKit.xcodeproj">
          </BuildableReference>
@@ -80,7 +80,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FB2F8D8019BF637B00E4C49E"
-            BuildableName = "LlamaKit-iOS.framework"
+            BuildableName = "LlamaKit.framework"
             BlueprintName = "LlamaKit-iOS"
             ReferencedContainer = "container:LlamaKit.xcodeproj">
          </BuildableReference>

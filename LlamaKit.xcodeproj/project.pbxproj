@@ -36,11 +36,11 @@
 
 /* Begin PBXFileReference section */
 		D0297D1019D67999009986A9 /* LlamaKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LlamaKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D0297D1A19D67999009986A9 /* LlamaKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LlamaKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0297D1A19D67999009986A9 /* LlamaKit-MacTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "LlamaKit-MacTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB2F8D8119BF637B00E4C49E /* LlamaKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LlamaKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB2F8D8519BF637B00E4C49E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FB2F8D8619BF637B00E4C49E /* LlamaKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LlamaKit.h; sourceTree = "<group>"; };
-		FB2F8D8C19BF637B00E4C49E /* LlamaKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = LlamaKitTests.xctest; path = "LlamaKit-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FB2F8D8C19BF637B00E4C49E /* LlamaKit-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "LlamaKit-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB2F8D8F19BF637B00E4C49E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FB2F8D9019BF637B00E4C49E /* ResultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultTests.swift; sourceTree = "<group>"; };
 		FB2F8D9A19BF661000E4C49E /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
@@ -97,9 +97,9 @@
 			isa = PBXGroup;
 			children = (
 				FB2F8D8119BF637B00E4C49E /* LlamaKit.framework */,
-				FB2F8D8C19BF637B00E4C49E /* LlamaKitTests.xctest */,
+				FB2F8D8C19BF637B00E4C49E /* LlamaKit-iOSTests.xctest */,
 				D0297D1019D67999009986A9 /* LlamaKit.framework */,
-				D0297D1A19D67999009986A9 /* LlamaKitTests.xctest */,
+				D0297D1A19D67999009986A9 /* LlamaKit-MacTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -195,7 +195,7 @@
 			);
 			name = "LlamaKit-MacTests";
 			productName = LlamaKitTests;
-			productReference = D0297D1A19D67999009986A9 /* LlamaKitTests.xctest */;
+			productReference = D0297D1A19D67999009986A9 /* LlamaKit-MacTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		FB2F8D8019BF637B00E4C49E /* LlamaKit-iOS */ = {
@@ -231,7 +231,7 @@
 			);
 			name = "LlamaKit-iOSTests";
 			productName = LlamaKitTests;
-			productReference = FB2F8D8C19BF637B00E4C49E /* LlamaKitTests.xctest */;
+			productReference = FB2F8D8C19BF637B00E4C49E /* LlamaKit-iOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -251,6 +251,7 @@
 					};
 					FB2F8D8019BF637B00E4C49E = {
 						CreatedOnToolsVersion = 6.0;
+						DevelopmentTeam = GYS967H4MT;
 					};
 					FB2F8D8B19BF637B00E4C49E = {
 						CreatedOnToolsVersion = 6.0;
@@ -373,7 +374,6 @@
 				INFOPLIST_FILE = LlamaKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -393,7 +393,6 @@
 				INFOPLIST_FILE = LlamaKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -472,7 +471,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -512,7 +512,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -526,6 +527,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -534,6 +537,8 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(PROJECT_NAME)";
+				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -543,6 +548,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -551,6 +558,8 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(PROJECT_NAME)";
+				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -595,6 +604,7 @@
 				D0297D2419D67999009986A9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D0297D2819D67999009986A9 /* Build configuration list for PBXNativeTarget "LlamaKit-MacTests" */ = {
 			isa = XCConfigurationList;
@@ -603,6 +613,7 @@
 				D0297D2619D67999009986A9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FB2F8D7B19BF637B00E4C49E /* Build configuration list for PBXProject "LlamaKit" */ = {
 			isa = XCConfigurationList;

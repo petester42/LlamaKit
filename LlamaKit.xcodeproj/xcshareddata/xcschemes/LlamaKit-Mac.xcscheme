@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D0297D0F19D67999009986A9"
-               BuildableName = "LlamaKit-Mac.framework"
+               BuildableName = "LlamaKit.framework"
                BlueprintName = "LlamaKit-Mac"
                ReferencedContainer = "container:LlamaKit.xcodeproj">
             </BuildableReference>
@@ -42,7 +42,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D0297CD719D67956009986A9"
+            BlueprintIdentifier = "D0297D1919D67999009986A9"
             BuildableName = "LlamaKit-MacTests.xctest"
             BlueprintName = "LlamaKit-MacTests"
             ReferencedContainer = "container:LlamaKit.xcodeproj">
@@ -58,6 +58,15 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "D0297D0F19D67999009986A9"
+            BuildableName = "LlamaKit.framework"
+            BlueprintName = "LlamaKit-Mac"
+            ReferencedContainer = "container:LlamaKit.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -71,7 +80,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D0297D0F19D67999009986A9"
-            BuildableName = "LlamaKit-Mac.framework"
+            BuildableName = "LlamaKit.framework"
             BlueprintName = "LlamaKit-Mac"
             ReferencedContainer = "container:LlamaKit.xcodeproj">
          </BuildableReference>
