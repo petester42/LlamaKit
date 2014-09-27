@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import LlamaKit
 import XCTest
 
 class ResultTests: XCTestCase {

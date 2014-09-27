@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Rob Napier. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 //! Project version number for LlamaKit.
 FOUNDATION_EXPORT double LlamaKitVersionNumber;
