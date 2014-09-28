@@ -33,22 +33,22 @@ public enum Result<T> {
   public func value() -> T? {
     switch self {
     case .Success(let box): return box.unbox
-    case .Failure(_): return nil
+    case .Failure: return nil
     }
   }
 
   /// The failing error as an Optional
   public func error() -> NSError? {
     switch self {
-    case .Success(_): return nil
+    case .Success: return nil
     case .Failure(let err): return err
     }
   }
 
   public func isSuccess() -> Bool {
     switch self {
-    case .Success(_): return true
-    case .Failure(_): return false
+    case .Success: return true
+    case .Failure: return false
     }
   }
 
@@ -91,10 +91,10 @@ extension Result: Printable {
 /// conformance based on your specialization.
 public func == <T: Equatable>(lhs: Result<T>, rhs: Result<T>) -> Bool {
   switch (lhs, rhs) {
-  case (.Success(_), .Success(_)): return lhs.value() == rhs.value()
-  case (.Success(_), .Failure(_)): return false
+  case (.Success, .Success): return lhs.value() == rhs.value()
+  case (.Success, .Failure): return false
   case (.Failure(let lhsErr), .Failure(let rhsErr)): return lhsErr == rhsErr
-  case (.Failure(_), .Success(_)): return false
+  case (.Failure, .Success): return false
   }
 }
 
