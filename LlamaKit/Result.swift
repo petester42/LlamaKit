@@ -20,14 +20,14 @@ public func success<T>(value: T) -> Result<T> {
 /// For example:
 ///    let fail: Result<Int> = failure()
 ///
-public func failure<T>(_ error: NSError = NSError(domain: "", code: 0, userInfo: nil)) -> Result<T> {
+public func failure<T>(_ error: ErrorType = NSError(domain: "", code: 0, userInfo: nil)) -> Result<T> {
   return .Failure(error)
 }
 
 /// Container for a successful value (T) or a failure with an NSError
 public enum Result<T> {
   case Success(Box<T>)
-  case Failure(NSError)
+  case Failure(ErrorType)
 
   /// The successful value as an Optional
   public func value() -> T? {
@@ -38,7 +38,7 @@ public enum Result<T> {
   }
 
   /// The failing error as an Optional
-  public func error() -> NSError? {
+  public func error() -> ErrorType? {
     switch self {
     case .Success: return nil
     case .Failure(let err): return err
@@ -85,23 +85,6 @@ extension Result: Printable {
   }
 }
 
-/// Note that while it is possible to use `==` on results that contain
-/// an Equatable type, Result is not itself Equatable. This is because
-/// T may not be Equatable, and there is no way in Swift to define protocol
-/// conformance based on your specialization.
-public func == <T: Equatable>(lhs: Result<T>, rhs: Result<T>) -> Bool {
-  switch (lhs, rhs) {
-  case (.Success, .Success): return lhs.value() == rhs.value()
-  case (.Success, .Failure): return false
-  case (.Failure(let lhsErr), .Failure(let rhsErr)): return lhsErr == rhsErr
-  case (.Failure, .Success): return false
-  }
-}
-
-public func != <T: Equatable>(lhs: Result<T>, rhs: Result<T>) -> Bool {
-  return !(lhs == rhs)
-}
-
 /// Failure coalescing
 ///    .Success(Box(42)) ?? 0 ==> 42
 ///    .Failure(NSError()) ?? 0 ==> 0
@@ -112,15 +95,4 @@ public func ??<T>(result: Result<T>, defaultValue: @autoclosure () -> T) -> T {
   case .Failure(let error):
     return defaultValue()
   }
-}
-
-//
-// Box
-//
-
-/// Due to current swift limitations, we have to include this Box in Result.
-/// Swift cannot handle an enum with multiple associated data (A, NSError) where one is of unknown size (A)
-final public class Box<T> {
-  public let unbox: T
-  public init(_ value: T) { self.unbox = value }
 }
