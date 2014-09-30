@@ -108,7 +108,7 @@ class ResultTests: XCTestCase {
 
   func testDescriptionFailure() {
     let x: Result<String> = failure()
-    XCTAssertEqual(x.description, "Failure: Error Domain= Code=0 \"The operation couldn’t be completed. ( error 0.)\"")
+    XCTAssert(x.description.hasPrefix("Failure: Error Domain= Code=0 "))
   }
 
   func testCoalesceSuccess() {

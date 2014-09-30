@@ -10,3 +10,6 @@ import Foundation
 public protocol ErrorType {}
 
 extension NSError: ErrorType {}
+
+public let ErrorFileKey = "LMErrorFile"
+public let ErrorLineKey = "LMErrorLine"
