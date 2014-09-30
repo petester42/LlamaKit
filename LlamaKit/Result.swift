@@ -12,6 +12,11 @@ public func success<T>(value: T) -> Result<T> {
   return .Success(Box(value))
 }
 
+enum ErrorKey: String {
+  case File = "LKErrorFile"
+  case Line = "LKErrorLine"
+}
+
 /// A failure `Result` returning `error`
 /// The default error is an empty one so that `failure()` is legal
 /// To assign this to a variable, you must explicitly give a type.
@@ -20,7 +25,12 @@ public func success<T>(value: T) -> Result<T> {
 /// For example:
 ///    let fail: Result<Int> = failure()
 ///
-public func failure<T>(_ error: ErrorType = NSError(domain: "", code: 0, userInfo: nil)) -> Result<T> {
+public func failure<T>(file: String = __FILE__, line: Int = __LINE__) -> Result<T> {
+  let userInfo: [NSObject : AnyObject] = [ErrorKey.File.rawValue: file, ErrorKey.Line.rawValue: line]
+  return failure(NSError(domain: "", code: 0, userInfo: userInfo))
+}
+
+public func failure<T>(_ error: ErrorType) -> Result<T> {
   return .Failure(error)
 }
 
