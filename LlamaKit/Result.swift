@@ -20,9 +20,19 @@ public func success<T>(value: T) -> Result<T> {
 /// For example:
 ///    let fail: Result<Int> = failure()
 ///
-public func failure<T>(message: String = "", file: String = __FILE__, line: Int = __LINE__) -> Result<T> {
+
+private func defaultError(userInfo: [NSObject: AnyObject]) -> NSError {
+  return NSError(domain: "", code: 0, userInfo: userInfo)
+}
+
+public func failure<T>(message: String, file: String = __FILE__, line: Int = __LINE__) -> Result<T> {
   let userInfo: [NSObject : AnyObject] = [NSLocalizedDescriptionKey: message, ErrorFileKey: file, ErrorLineKey: line]
-  return failure(NSError(domain: "", code: 0, userInfo: userInfo))
+  return failure(defaultError(userInfo))
+}
+
+public func failure<T>(file: String = __FILE__, line: Int = __LINE__) -> Result<T> {
+  let userInfo: [NSObject : AnyObject] = [ErrorFileKey: file, ErrorLineKey: line]
+  return failure(defaultError(userInfo))
 }
 
 public func failure<T>(error: ErrorType) -> Result<T> {
