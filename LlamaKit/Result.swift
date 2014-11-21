@@ -39,6 +39,11 @@ public func failure<T>(error: ErrorType) -> Result<T> {
   return .Failure(error)
 }
 
+public func try<T>(f: NSErrorPointer -> T?) -> Result<T> {
+  var error: NSError?
+  return f(&error).map(success) ?? failure(error ?? defaultError([:]))
+}
+
 /// Container for a successful value (T) or a failure with an NSError
 public enum Result<T> {
   case Success(Box<T>)
