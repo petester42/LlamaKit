@@ -39,6 +39,9 @@ public func failure<T>(error: ErrorType) -> Result<T> {
   return .Failure(error)
 }
 
+/// Construct a `Result` using a block which receives an error parameter.
+/// Expected to return non-nil for success.
+
 public func try<T>(f: NSErrorPointer -> T?) -> Result<T> {
   var error: NSError?
   return f(&error).map(success) ?? failure(error ?? defaultError([:]))
