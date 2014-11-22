@@ -135,4 +135,9 @@ class ResultTests: XCTestCase {
     XCTAssertEqual(result ?? 43, 43)
     XCTAssert(result.description.hasPrefix("Failure: Error Domain=domain Code=1 "))
   }
+
+  func testTryBoolSuccess() {
+    let succeed: NSErrorPointer -> Bool = { _ in true }
+    XCTAssert(try(succeed).isSuccess())
+  }
 }
