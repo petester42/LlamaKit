@@ -34,13 +34,11 @@ private func defaultError(file: String = __FILE__, line: Int = __LINE__) -> NSEr
 }
 
 public func failure<T>(message: String, file: String = __FILE__, line: Int = __LINE__) -> Result<T> {
-  let userInfo: [NSObject : AnyObject] = [NSLocalizedDescriptionKey: message, ErrorFileKey: file, ErrorLineKey: line]
-  return failure(defaultError(userInfo))
+  return failure(defaultError(message, file: file, line: line))
 }
 
 public func failure<T>(file: String = __FILE__, line: Int = __LINE__) -> Result<T> {
-  let userInfo: [NSObject : AnyObject] = [ErrorFileKey: file, ErrorLineKey: line]
-  return failure(defaultError(userInfo))
+  return failure(defaultError(file: file, line: line))
 }
 
 public func failure<T>(error: ErrorType) -> Result<T> {
