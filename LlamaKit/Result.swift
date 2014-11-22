@@ -48,14 +48,14 @@ public func failure<T>(error: ErrorType) -> Result<T> {
 /// Construct a `Result` using a block which receives an error parameter.
 /// Expected to return non-nil for success.
 
-public func try<T>(f: NSErrorPointer -> T?) -> Result<T> {
+public func try<T>(f: NSErrorPointer -> T?, file: String = __FILE__, line: Int = __LINE__) -> Result<T> {
   var error: NSError?
-  return f(&error).map(success) ?? failure(error ?? defaultError([:]))
+  return f(&error).map(success) ?? failure(error ?? defaultError(file: file, line: line))
 }
 
-public func try(f: NSErrorPointer -> BooleanType) -> Result<()> {
+public func try(f: NSErrorPointer -> BooleanType, file: String = __FILE__, line: Int = __LINE__) -> Result<()> {
   var error: NSError?
-  return f(&error) ? success(()) : failure(error ?? defaultError([:]))
+  return f(&error) ? success(()) : failure(error ?? defaultError(file: file, line: line))
 }
 
 /// Container for a successful value (T) or a failure with an NSError
