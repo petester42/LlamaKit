@@ -120,4 +120,9 @@ class ResultTests: XCTestCase {
     let x = failure() ?? 43
     XCTAssertEqual(x, 43)
   }
+
+  func testTryTSuccess() {
+    let succeed: NSErrorPointer -> Int? = { _ in 42 }
+    XCTAssertEqual(try(succeed) ?? 43, 42)
+  }
 }
