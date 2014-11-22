@@ -129,22 +129,16 @@ class ResultTests: XCTestCase {
   }
 
   func testTryTSuccess() {
-    let succeed: NSErrorPointer -> Int? = { _ in 42 }
-    XCTAssertEqual(try(succeed) ?? 43, 42)
+    XCTAssertEqual(try(makeTryFunction(42 as Int?)) ?? 43, 42)
   }
 
   func testTryTFailure() {
-    let fail: NSErrorPointer -> Int? = { error in
-      error.memory = NSError(domain: "domain", code: 1, userInfo: [:])
-      return nil
-    }
-    let result = try(fail)
+    let result = try(makeTryFunction(nil as Int?, false))
     XCTAssertEqual(result ?? 43, 43)
     XCTAssert(result.description.hasPrefix("Failure: Error Domain=domain Code=1 "))
   }
 
   func testTryBoolSuccess() {
-    let succeed: NSErrorPointer -> Bool = { _ in true }
-    XCTAssert(try(succeed).isSuccess())
+    XCTAssert(try(makeTryFunction(true)).isSuccess())
   }
 }
