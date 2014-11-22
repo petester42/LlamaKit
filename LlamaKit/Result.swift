@@ -53,7 +53,7 @@ public func try<T>(f: NSErrorPointer -> T?, file: String = __FILE__, line: Int =
   return f(&error).map(success) ?? failure(error ?? defaultError(file: file, line: line))
 }
 
-public func try(f: NSErrorPointer -> BooleanType, file: String = __FILE__, line: Int = __LINE__) -> Result<()> {
+public func try(f: NSErrorPointer -> Bool, file: String = __FILE__, line: Int = __LINE__) -> Result<()> {
   var error: NSError?
   return f(&error) ? success(()) : failure(error ?? defaultError(file: file, line: line))
 }
