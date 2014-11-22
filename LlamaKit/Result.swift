@@ -8,7 +8,7 @@ import Foundation
 /// A success `Result` returning `value`
 /// This form is preferred to `Result.Success(Box(value))` because it
 // does not require dealing with `Box()`
-public func success<T>(value: T) -> Result<T> {
+public func success<T,E>(value: T) -> Result<T,E> {
   return .Success(Box(value))
 }
 
@@ -21,28 +21,32 @@ public func success<T>(value: T) -> Result<T> {
 ///    let fail: Result<Int> = failure()
 ///
 
+/// Dictionary keys for default errors
+public let ErrorFileKey = "LMErrorFile"
+public let ErrorLineKey = "LMErrorLine"
+
 private func defaultError(userInfo: [NSObject: AnyObject]) -> NSError {
   return NSError(domain: "", code: 0, userInfo: userInfo)
 }
 
-public func failure<T>(message: String, file: String = __FILE__, line: Int = __LINE__) -> Result<T> {
+public func failure<T>(message: String, file: String = __FILE__, line: Int = __LINE__) -> Result<T,NSError> {
   let userInfo: [NSObject : AnyObject] = [NSLocalizedDescriptionKey: message, ErrorFileKey: file, ErrorLineKey: line]
   return failure(defaultError(userInfo))
 }
 
-public func failure<T>(file: String = __FILE__, line: Int = __LINE__) -> Result<T> {
+public func failure<T>(file: String = __FILE__, line: Int = __LINE__) -> Result<T,NSError> {
   let userInfo: [NSObject : AnyObject] = [ErrorFileKey: file, ErrorLineKey: line]
   return failure(defaultError(userInfo))
 }
 
-public func failure<T>(error: ErrorType) -> Result<T> {
-  return .Failure(error)
+public func failure<T,E>(error: E) -> Result<T,E> {
+  return .Failure(Box(error))
 }
 
 /// Container for a successful value (T) or a failure with an NSError
-public enum Result<T> {
+public enum Result<T,E> {
   case Success(Box<T>)
-  case Failure(ErrorType)
+  case Failure(Box<E>)
 
   /// The successful value as an Optional
   public func value() -> T? {
@@ -53,10 +57,10 @@ public enum Result<T> {
   }
 
   /// The failing error as an Optional
-  public func error() -> ErrorType? {
+  public func error() -> E? {
     switch self {
     case .Success: return nil
-    case .Failure(let err): return err
+    case .Failure(let err): return err.unbox
     }
   }
 
@@ -69,7 +73,7 @@ public enum Result<T> {
 
   /// Return a new result after applying a transformation to a successful value.
   /// Mapping a failure returns a new failure without evaluating the transform
-  public func map<U>(transform: T -> U) -> Result<U> {
+  public func map<U>(transform: T -> U) -> Result<U,E> {
     switch self {
     case Success(let box):
       return .Success(Box(transform(box.unbox)))
@@ -80,8 +84,8 @@ public enum Result<T> {
 
   /// Return a new result after applying a transformation (that itself
   /// returns a result) to a successful value.
-  /// Flat mapping a failure returns a new failure without evaluating the transform
-  public func flatMap<U>(transform:T -> Result<U>) -> Result<U> {
+  /// Calling with a failure returns a new failure without evaluating the transform
+  public func then<U>(transform:T -> Result<U,E>) -> Result<U,E> {
     switch self {
     case Success(let value): return transform(value.unbox)
     case Failure(let error): return .Failure(error)
@@ -95,7 +99,7 @@ extension Result: Printable {
     case .Success(let box):
       return "Success: \(box.unbox)"
     case .Failure(let error):
-      return "Failure: \(error)"
+      return "Failure: \(error.unbox)"
     }
   }
 }
@@ -103,11 +107,18 @@ extension Result: Printable {
 /// Failure coalescing
 ///    .Success(Box(42)) ?? 0 ==> 42
 ///    .Failure(NSError()) ?? 0 ==> 0
-public func ??<T>(result: Result<T>, defaultValue: @autoclosure () -> T) -> T {
+public func ??<T,E>(result: Result<T,E>, defaultValue: @autoclosure () -> T) -> T {
   switch result {
   case .Success(let value):
     return value.unbox
   case .Failure(let error):
     return defaultValue()
   }
+}
+
+/// Due to current swift limitations, we have to include this Box in Result.
+/// Swift cannot handle an enum with multiple associated data (A, NSError) where one is of unknown size (A)
+final public class Box<T> {
+  public let unbox: T
+  public init(_ value: T) { self.unbox = value }
 }
