@@ -79,25 +79,25 @@ class ResultTests: XCTestCase {
 
   func testFlatMapSuccessSuccess() {
     let x: Result<Int, NSError> = success(42)
-    let y = x.then(doubleSuccess)
+    let y = x.flatMap(doubleSuccess)
     XCTAssertEqual(y.value()!, 84)
   }
 
   func testFlatMapSuccessFailure() {
     let x: Result<Int, NSError> = success(42)
-    let y = x.then(doubleFailure)
+    let y = x.flatMap(doubleFailure)
     XCTAssertEqual(y.error()!, self.err)
   }
 
   func testFlatMapFailureSuccess() {
     let x: Result<Int, NSError> = failure(self.err2)
-    let y = x.then(doubleSuccess)
+    let y = x.flatMap(doubleSuccess)
     XCTAssertEqual(y.error()!, self.err2)
   }
 
   func testFlatMapFailureFailure() {
     let x: Result<Int, NSError> = failure(self.err2)
-    let y = x.then(doubleFailure)
+    let y = x.flatMap(doubleFailure)
     XCTAssertEqual(y.error()!, self.err2)
   }
 

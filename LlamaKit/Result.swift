@@ -85,7 +85,7 @@ public enum Result<T,E> {
   /// Return a new result after applying a transformation (that itself
   /// returns a result) to a successful value.
   /// Calling with a failure returns a new failure without evaluating the transform
-  public func then<U>(transform:T -> Result<U,E>) -> Result<U,E> {
+  public func flatMap<U>(transform:T -> Result<U,E>) -> Result<U,E> {
     switch self {
     case Success(let value): return transform(value.unbox)
     case Failure(let error): return .Failure(error)
