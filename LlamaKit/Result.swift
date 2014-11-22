@@ -25,6 +25,14 @@ private func defaultError(userInfo: [NSObject: AnyObject]) -> NSError {
   return NSError(domain: "", code: 0, userInfo: userInfo)
 }
 
+private func defaultError(message: String, file: String = __FILE__, line: Int = __LINE__) -> NSError {
+  return defaultError([NSLocalizedDescriptionKey: message, ErrorFileKey: file, ErrorLineKey: line])
+}
+
+private func defaultError(file: String = __FILE__, line: Int = __LINE__) -> NSError {
+  return defaultError([ErrorFileKey: file, ErrorLineKey: line])
+}
+
 public func failure<T>(message: String, file: String = __FILE__, line: Int = __LINE__) -> Result<T> {
   let userInfo: [NSObject : AnyObject] = [NSLocalizedDescriptionKey: message, ErrorFileKey: file, ErrorLineKey: line]
   return failure(defaultError(userInfo))
