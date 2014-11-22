@@ -125,4 +125,14 @@ class ResultTests: XCTestCase {
     let succeed: NSErrorPointer -> Int? = { _ in 42 }
     XCTAssertEqual(try(succeed) ?? 43, 42)
   }
+
+  func testTryTFailure() {
+    let fail: NSErrorPointer -> Int? = { error in
+      error.memory = NSError(domain: "domain", code: 1, userInfo: [:])
+      return nil
+    }
+    let result = try(fail)
+    XCTAssertEqual(result ?? 43, 43)
+    XCTAssert(result.description.hasPrefix("Failure: Error Domain=domain Code=1 "))
+  }
 }
