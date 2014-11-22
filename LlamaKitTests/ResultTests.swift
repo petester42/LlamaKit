@@ -121,6 +121,13 @@ class ResultTests: XCTestCase {
     XCTAssertEqual(x, 43)
   }
 
+  private func makeTryFunction<T>(x: T, _ succeed: Bool = true)(error: NSErrorPointer) -> T {
+    if !succeed {
+      error.memory = NSError(domain: "domain", code: 1, userInfo: [:])
+    }
+    return x
+  }
+
   func testTryTSuccess() {
     let succeed: NSErrorPointer -> Int? = { _ in 42 }
     XCTAssertEqual(try(succeed) ?? 43, 42)
