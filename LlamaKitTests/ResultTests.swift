@@ -141,4 +141,10 @@ class ResultTests: XCTestCase {
   func testTryBoolSuccess() {
     XCTAssert(try(makeTryFunction(true)).isSuccess())
   }
+
+  func testTryBoolFailure() {
+    let result = try(makeTryFunction(false, false))
+    XCTAssertFalse(result.isSuccess())
+    XCTAssert(result.description.hasPrefix("Failure: Error Domain=domain Code=1 "))
+  }
 }
