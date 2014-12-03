@@ -64,7 +64,7 @@ public enum Result<T> {
   case Failure(ErrorType)
 
   /// The successful value as an Optional
-  public func value() -> T? {
+  public var value: T? {
     switch self {
     case .Success(let box): return box.unbox
     case .Failure: return nil
@@ -72,14 +72,14 @@ public enum Result<T> {
   }
 
   /// The failing error as an Optional
-  public func error() -> ErrorType? {
+  public var error: ErrorType? {
     switch self {
     case .Success: return nil
     case .Failure(let err): return err
     }
   }
 
-  public func isSuccess() -> Bool {
+  public var isSuccess: Bool {
     switch self {
     case .Success: return true
     case .Failure: return false
