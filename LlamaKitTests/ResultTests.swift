@@ -16,57 +16,57 @@ class ResultTests: XCTestCase {
 
   func testSuccessIsSuccess() {
     let s = success(42)
-    XCTAssertTrue(s.isSuccess())
+    XCTAssertTrue(s.isSuccess)
   }
 
   func testFailureIsNotSuccess() {
     let f: Result<Bool> = failure()
-    XCTAssertFalse(f.isSuccess())
+    XCTAssertFalse(f.isSuccess)
   }
 
   func testSuccessReturnsValue() {
     let s = success(42)
-    XCTAssertEqual(s.value()!, 42)
+    XCTAssertEqual(s.value!, 42)
   }
 
   func testSuccessReturnsNoError() {
     let s = success(42)
-    XCTAssert(s.error() == nil)
+    XCTAssert(s.error == nil)
   }
 
   func testFailureReturnsError() {
     let f: Result<Int> = failure(self.err)
-    XCTAssertEqual(f.error() as NSError, self.err)
+    XCTAssertEqual(f.error as NSError, self.err)
   }
 
   func testFailureReturnsNoValue() {
     let f: Result<Int> = failure(self.err)
-    XCTAssertNil(f.value())
+    XCTAssertNil(f.value)
   }
 
   func testMapSuccessUnaryOperator() {
     let x = success(42)
     let y = x.map(-)
-    XCTAssertEqual(y.value()!, -42)
+    XCTAssertEqual(y.value!, -42)
   }
 
   func testMapFailureUnaryOperator() {
     let x: Result<Int> = failure(self.err)
     let y = x.map(-)
-    XCTAssertNil(y.value())
-    XCTAssertEqual(y.error() as NSError, self.err)
+    XCTAssertNil(y.value)
+    XCTAssertEqual(y.error as NSError, self.err)
   }
 
   func testMapSuccessNewType() {
     let x = success("abcd")
     let y = x.map { countElements($0) }
-    XCTAssertEqual(y.value()!, 4)
+    XCTAssertEqual(y.value!, 4)
   }
 
   func testMapFailureNewType() {
     let x: Result<String> = failure(self.err)
     let y = x.map { countElements($0) }
-    XCTAssertEqual(y.error() as NSError, self.err)
+    XCTAssertEqual(y.error as NSError, self.err)
   }
 
   func doubleSuccess(x: Int) -> Result<Int> {
@@ -80,25 +80,25 @@ class ResultTests: XCTestCase {
   func testFlatMapSuccessSuccess() {
     let x = success(42)
     let y = x.flatMap(doubleSuccess)
-    XCTAssertEqual(y.value()!, 84)
+    XCTAssertEqual(y.value!, 84)
   }
 
   func testFlatMapSuccessFailure() {
     let x = success(42)
     let y = x.flatMap(doubleFailure)
-    XCTAssertEqual(y.error() as NSError, self.err)
+    XCTAssertEqual(y.error as NSError, self.err)
   }
 
   func testFlatMapFailureSuccess() {
     let x: Result<Int> = failure(self.err2)
     let y = x.flatMap(doubleSuccess)
-    XCTAssertEqual(y.error() as NSError, self.err2)
+    XCTAssertEqual(y.error as NSError, self.err2)
   }
 
   func testFlatMapFailureFailure() {
     let x: Result<Int> = failure(self.err2)
     let y = x.flatMap(doubleFailure)
-    XCTAssertEqual(y.error() as NSError, self.err2)
+    XCTAssertEqual(y.error as NSError, self.err2)
   }
 
   func testDescriptionSuccess() {
@@ -139,12 +139,12 @@ class ResultTests: XCTestCase {
   }
 
   func testTryBoolSuccess() {
-    XCTAssert(try(makeTryFunction(true)).isSuccess())
+    XCTAssert(try(makeTryFunction(true)).isSuccess)
   }
 
   func testTryBoolFailure() {
     let result = try(makeTryFunction(false, false))
-    XCTAssertFalse(result.isSuccess())
+    XCTAssertFalse(result.isSuccess)
     XCTAssert(result.description.hasPrefix("Failure: Error Domain=domain Code=1 "))
   }
 }
