@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "LlamaKit"
-  s.version      = "0.1.0"
+  s.version      = "0.2.0"
   s.summary      = "Collection of must-have functional Swift tools."
   s.description  = "Collection of must-have functional tools. Trying to be as lightweight as possible, hopefully providing a simple foundation that more advanced systems can build on. LlamaKit is very Cocoa-focused. It is designed to work with common Cocoa paradigms, use names that are understandable to Cocoa devs, integrate with Cocoa tools like GCD, and in general strive for a low-to-modest learning curve for devs familiar with ObjC and Swift rather than Haskell and ML."
   s.homepage     = "https://github.com/LlamaKit/LlamaKit"
